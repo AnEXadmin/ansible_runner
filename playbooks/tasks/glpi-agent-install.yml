@@ -1,0 +1,37 @@
+---
+- name: installing glpi-agent for inventory collect
+  hosts: book
+  become: yes
+  tasks:
+
+  - name: apt check snap
+    apt:
+      name: snap
+      state: latest
+    become: yes
+
+  - name: agent install
+    apt:
+      deb: https://github.com/glpi-project/glpi-agent/releases/download/1.4/glpi-agent_1.4-1_all.deb
+      state: present
+    become: yes
+
+  - name: add  glpi.local to hosts
+    shell: echo "192.168.80.15 glpi.local" >> /etc/hosts
+    become: yes
+
+#  - name: change old glpi addr
+#    shell: sed -i '/^[^#].*34/s/^/#/' /etc/hosts
+#    become: yes
+
+  - name: add glpi server to agent  config
+    shell: echo "server = http://glpi.local" >> /etc/glpi-agent/agent.cfg
+    become: yes
+
+  - name: comment param #include "conf.d/"
+    shell: sed -i '/^[^#].*include/s/^/#/' /etc/glpi-agent/agent.cfg
+    become: yes
+
+  - name: collect inventory information to  glpi server
+    shell: glpi-agent
+    become: yes

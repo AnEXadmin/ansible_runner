@@ -1,0 +1,7 @@
+---
+- hosts: book
+  become: true
+  tasks:
+  - name: collect inventory data
+    shell: glpi-agent
+    become: true

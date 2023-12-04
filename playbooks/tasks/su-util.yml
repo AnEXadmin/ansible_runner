@@ -1,0 +1,76 @@
+---
+- name: uninstall soft
+  apt:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - thunderbird
+    - gnome-sudoku
+    - aisleriot
+    - gnome-mahjongg
+    - gnome-mines
+  become: yes
+
+- name: uninstall firefox
+  community.general.snap:
+    name: firefox
+    state: absent
+  become: yes
+
+- name: install or uprdade tool
+  apt:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - mc #filebrowser
+    - net-tools #ifconfig +
+    - tree #ansible testing
+    - snapd #preinst depend 
+    - gdebi #preinst zoom
+    - telegram-desktop #telegramm 
+    - curl #link 
+  become: yes
+
+- name: anydesk key
+  apt_key:
+    url: https://keys.anydesk.com/repos/DEB-GPG-KEY
+  become: yes
+
+- name: anydesk rep
+  apt_repository:
+    repo: deb [arch=amd64] http://deb.anydesk.com/ all main
+    state: present
+    filename: anydesk
+  become: yes
+
+- name: anydesk install
+  apt:
+    name: "anydesk"
+    state: latest
+    update_cache: true
+  become: yes
+- name: Install apt-transport-https
+  ansible.builtin.apt:
+    state: latest
+    update_cache: true
+  become: yes
+
+- name: Add Apt signing key
+  ansible.builtin.apt_key:
+    url: "https://dl.google.com/linux/linux_signing_key.pub"
+    state: present
+  become: yes
+
+- name: Add repository into sources list
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+    filename: google-chrome
+  become: yes
+
+- name: Install google-chrome-stable
+  ansible.builtin.apt:
+    name: "google-chrome-stable"
+    state: latest
+    update_cache: true
+  become: yes

@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+
+  - name: updating apt
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+      upgrade: dist
+      force_apt_get: true
+    tags: apt update
+
+  - name: install or uprdade tool
+    apt:
+      name: "{{ item }}"
+      state: latest
+    loop:
+      - mc #filebrowser
+      - net-tools #ifconfig +
+      - tree #ansible testing
+      - snapd #telegram pre-install
+      - telegram-desktop #telegram install
