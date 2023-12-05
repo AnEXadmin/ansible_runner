@@ -1,0 +1,21 @@
+___
+name: test1
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  install-and-connect:
+    runs-on:  ubuntu-latest
+      
+
+    steps:
+      - name: check OS
+        debug:
+        msg: "{{ ansible_facts['distribution'] }}"        
+      - name: list
+        run: ls -la
+      - name: ps
+        run: ps -aux
+        
