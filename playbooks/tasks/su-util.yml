@@ -24,7 +24,7 @@
   loop:
     - mc #filebrowser
     - net-tools #ifconfig +
-    - tree #ansible testing
+    - tree #stucture dir show
     - snapd #preinst depend 
     - gdebi #preinst zoom
     - telegram-desktop #telegramm 
